@@ -1,0 +1,265 @@
+#!/bin/bash
+#Declaring variable name, id and n
+name=$1
+id=$2
+n=$#
+#Function for Checking if the user has inputted 2 parameters
+parametercheck () {
+	if ! [ $n -eq 2 ]
+	then
+		#Notifying User of the error and terminating the program
+		echo -e "Invalid input! Please re-run the program with correct number of parameters"
+		exit
+	fi
+}
+#Function for checking if the first and second parameter are string and integer respectively
+parametercheck1 () {
+	if ! [[ $name =~ ^[A-Za-z" "]+$ && $id =~ ^[0-9]+$ ]]
+	then
+		#Notifying User of the error and terminating the program
+		echo -e "Invalid Input! Name should be written in string and ID should be written in integer format."
+		exit
+	fi
+}
+#Function for greeting
+greeting () {
+	#Displaying name, ID and date
+	echo -e "\nWelcome to the program!"
+	echo "ID: $id"
+	echo -e "Name: $name"
+	echo -e "Time of access: $(date)\n"
+}
+#Function for checking the secret key
+secretkey (){
+	echo -e "Please Enter the Secret Key: \c"
+	#Declaring variable key and i
+	key="123456"
+	i=0
+	#
+	while [ $i -le 4 ]
+	do
+		#Asking user to input and storing it in variable k
+		read k
+		#Checking if the value of i is equal to 4
+		if [ $i == 4 ]
+		then
+			#Notifying User about entering the password incorrectly too many times and terminating the program
+			echo -e "\nYou have incorrectly written the key several times. Thus, the program shall be terminated"
+			exit
+		fi
+		#Checking if k is empty
+		if [ -z $k ]
+		then
+			#Notifying User of the error
+			echo -e "Input cant be empty! Please Re-Enter the key: \c"
+			((i=i+1))
+		#Checking if variable k and key are equal
+		elif [ $k == $key ]
+		then
+			break
+		else
+			((i=i+1))
+			#Notifying User of the error
+			echo -e "Incorrect key! Please Re-Enter the key: \c"
+		fi
+	done
+}
+#Function for building the table for Country names and codes
+countrytable () {
+	echo "Following is the codes and names of the five countries team that has played Football:"
+	echo "+--------------------+"
+	echo "|Country   |   CODE  |"
+	echo "----------------------"
+	echo "|Brazil    |  BRZ    |"
+	echo "|Argentina |  ARG    |"
+	echo "|Nepal     |  NEP    |"
+	echo "|China     |  CHI    |"
+	echo "|England   |  ENG    |"
+	echo -e "+--------------------+\n"
+}
+#building the table for player names and codes
+playertable () {
+	echo "+----------------------+"
+	echo "|Players        | CODE |"
+	echo "------------------------"
+	echo "|Lionel Messi   |  LM  |"
+	echo "|Neymar Junior  |  NJ  |"
+	echo "|Kiran Chemjong |  KC  |"
+	echo "|Zheng Zhi      |  ZZ  |"
+	echo "|Harry Kane     |  HK  |"
+	echo "+----------------------+"
+}
+#Calling functions: parametercheck, parametercheck1, secretkey and greeting	
+parametercheck
+parametercheck1
+secretkey
+greeting
+#Decalring variable ext
+ext=0
+#Looping until ext is greater than 0
+until [ $ext -gt 0 ]
+do
+	countrytable
+	echo -e "Guess which one is best football team."
+	echo -e "By Entering the code of the country (Case sensitive):\c"
+	#Decalring variable match
+	match=1	
+	#Looping while match is equal to 1
+	while [ $match -eq 1 ]
+	do
+		#Asking user to input and storing it in variable code
+		read code
+		#Checking if code is empty
+		if [ -z $code ]
+		then
+			#Notifying User of the error
+			echo -e "\nThe input cant be empty. Please try agian: \c"
+		#Checking if variable code is equal to BRZ
+		elif [ $code == BRZ ]
+		then
+			#Notifying user that user got the correct answer and giving a description of the Brazil national team 
+			echo -e "\nCorrect Answer. Brazil is the best football team"
+			echo -e "Description of the Brazil football team:"
+			echo -e "Brazil is the most successful national team in the FIFA World Cup,"
+			echo -e "being crowned winner five times: 1958, 1962, 1970, 1994 and 2002."
+			echo -e "They also has the best overall performance in the World Cup competition, with a record of"
+			echo -e "73 victories in 109 matches played, 124 goal difference, 237 points, and 18 losses.\n"
+			match=0
+		#Checking if variable code is equal to ARG
+		elif [ $code == ARG ]
+		then
+				#Notifying user to try again as user got the wrong answer
+        		echo -e "\nWrong answer! Argentina is a good team but not the best"
+        		echo -e "Please try again: \c"
+		#Checking if variable code is equal to NEP
+		elif [ $code == NEP ]
+		then
+				#Notifying user to try again as user got the wrong answer
+        		echo -e "\nWrong answer! Nepal is a good team but not the best"
+        		echo -e "Please try again: \c"
+		#Checking if variable code is equal to CHI
+		elif [ $code == CHI ]
+		then
+				#Notifying user to try again as user got the wrong answer
+        		echo -e "\nWrong answer! China is a good team but not the best"
+        		echo -e "Please try again: \c"
+		#Checking if variable code is equal to ENG
+		elif [ $code == ENG ]
+		then
+				#Notifying user to try again as user got the wrong answer
+        		echo -e "\nWrong answer! England is a good team but not the best"
+        		echo -e "Please try again: \c"
+		else
+				#Notifying User of the error
+        		echo -e "\nInvalid Input! Please enter the correct country code: \c"
+		fi
+	done
+
+	echo "Following is codes and names of Players who play football"
+	playertable
+	#Declaring array players
+	players=("LM NJ KC ZZ HK")
+	a=""
+	b=""
+	c=""
+	#Declaring variable i
+	i=0
+	#giving condition within loop to check the validation of three input codes. If the criteria do not match it will ask continuously
+	until [[ ${#c} = 2 && "${players[@]}" =~ "${a}" && "${players[@]}" =~ "${b}" && "${players[@]}" =~ "${c}" && 
+	$a != $b && $a != $c && $b != $a && $b != $c && $c != $a && $c != $b ]]
+	do
+		#Checking if i is greater than 0
+		if [[ $i -gt 0 ]]
+		then
+			echo -e "\nInvalid Input! Make sure to select three codes are selected are correct and not repeated."
+		fi
+		#asking user to select three codes
+		echo -e "Please Select three player codes (Case sensitive) : \c"
+		read a b c
+		((i=i+1))
+	done
+	#Decalaring variable con
+	con=0
+	echo -e "\nThe selected Player codes are listed below:"
+	#Asking user to select an option and storing the option in pc
+	PS3="Choose one player code from the three above (Give the option number): "
+	select pc in $a $b $c
+	do
+		#Checking if variable pc has is equal to the following strings
+		case $pc in
+		"LM")
+			#Viewing Contents from file LM
+			cat LM.txt
+			echo ""
+			break
+		;;
+		"NJ")
+			#Viewing Contents from file NJ
+			cat NJ.txt
+			echo ""
+			break
+
+		;;
+		"HK")
+			#Viewing Contents from file HK
+			cat HK.txt
+			echo ""
+			break
+		;;
+		"ZZ")
+			#Notifuing user that file of player ZZ is not available
+			echo -e "Unfortunately data about Zheng Zin is not available.\n"
+			con=1
+			break
+		;;
+		"KC")
+			#Notifying user that file of player KC is not available
+			echo -e "Unfortunately data about Kiran Chemjong is not available. \n"
+			con=1
+			break
+		;;
+		*)
+			#Notifying User of the error
+			echo -e "Invalid Input! Please enter one of the codes selected."
+		;;
+		esac
+	done
+	#Checking if variable con is equal to 1
+	if [[ $con -eq 1 ]] 
+	then
+		#Running next iteration of loop
+		continue
+	fi
+	#Declaring variable o
+	o=1
+	#Looping while variable o is equal to 1
+	while [[ $o -eq 1 ]]
+	do
+		#Asking user for input and storing it in variable g
+		echo -e "Do you want to try again (yes/no)? \c"
+		read g
+		#Checking if variable g is empty
+		if [ -z $g ]
+		then
+			#Notifying User of the error
+			echo -e "Input cant be empty! Please Enter yes or no."
+		#Checking if variable g is equal to no
+		elif [ ${g,,} == "no" ]
+		then
+			echo -e "Thank you for using this program."
+			ext=1
+			o=0
+		#Checking if variable g is equal to yes
+		elif [ ${g,,} == "yes" ]
+		then
+			#Notifying user that the program while be looped
+			echo -e "The program shall Re-run"
+			o=0
+		else
+			#Notifying User of the error
+			echo -e "Invalid Input! Please Enter yes or no."
+		fi
+	done
+done
+
+
